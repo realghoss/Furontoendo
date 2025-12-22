@@ -1,0 +1,582 @@
+/* --- 1. 全站變數 (Variables) --- */
+:root {
+    --bg-color: #0a0a0a;
+    --text-color: #e0e0e0;
+    --accent-gold: #D4AF37;
+    --accent-gold-dim: #8a7122;
+    --nav-bg: rgba(20, 20, 20, 0.95);
+    
+    --font-title: 'Cinzel Decorative', cursive; 
+    --font-body: 'Noto Serif TC', serif; 
+}
+
+/* --- 2. 基礎重置 (Reset) --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    line-height: 1.6;
+}
+
+/* --- 3. 導覽列 (Navbar) --- */
+header {
+    /* 定位與佈局 */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    /* 尺寸 */
+    width: 100%;
+    height: 70px;
+
+    /* 間距 */
+    padding: 0 2rem;
+
+    /* 視覺 */
+    background-color: var(--nav-bg);
+    border-bottom: 2px solid var(--accent-gold-dim);
+}
+
+.logo {
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+    color: var(--accent-gold);
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+}
+
+.nav-links a {
+    position: relative;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--accent-gold);
+}
+
+.report-btn {
+    padding: 5px 15px;
+    border: 1px solid var(--accent-gold);
+    border-radius: 4px;
+}
+
+.report-btn:hover {
+    background-color: var(--accent-gold);
+    color: #000 !important;
+}
+
+/* --- 4. 內容容器 --- */
+.container {
+    /* 尺寸 */
+    width: 100%;
+    max-width: 1200px;
+    min-height: 80vh;
+
+    /* 間距 */
+    margin: 0 auto; /* 水平置中 */
+    padding: 2rem;
+}
+
+/* --- 5. 過濾器工具列 (Filter Bar) --- */
+.filter-bar {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--accent-gold-dim);
+    border-radius: 8px;
+}
+
+.filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+select, input {
+    padding: 8px 12px;
+    background: #1a1a1a;
+    border: 1px solid var(--accent-gold-dim);
+    border-radius: 4px;
+    color: var(--text-color);
+    font-family: var(--font-body);
+}
+
+/* --- 6. 網格系統 (Grid System) --- */
+.card-grid {
+    display: grid;
+    /* 預設: 8欄 */
+    grid-template-columns: repeat(8, 1fr); 
+    gap: 15px;
+}
+
+/* 響應式斷點 (RWD) */
+@media (max-width: 1400px) { .card-grid { grid-template-columns: repeat(6, 1fr); } }
+@media (max-width: 1100px) { .card-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 768px)  { .card-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 480px)  { .card-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* --- 7. 單張卡片 (Card Item) --- */
+.card-item {
+    /* 定位 */
+    position: relative;
+    
+    /* 尺寸 */
+    aspect-ratio: 3/4; /* 強制比例 */
+    
+    /* 視覺 */
+    background: #222;
+    border: 1px solid #333;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+    border-color: var(--accent-gold);
+}
+
+.card-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- 8. 彈出視窗 (Modal) --- */
+.modal {
+    /* 定位 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+    display: none; /* 預設隱藏 */
+    align-items: center;
+    justify-content: center;
+
+    /* 尺寸 */
+    width: 100%;
+    height: 100%;
+
+    /* 視覺 */
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    /* 定位 */
+    position: relative;
+
+    /* 尺寸 */
+    width: 80%;
+    max-width: 800px;
+
+    /* 間距 */
+    padding: 30px;
+
+    /* 視覺 */
+    background-color: #151515;
+    border: 2px solid var(--accent-gold);
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: var(--accent-gold);
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-body {
+    display: flex;
+    gap: 30px;
+}
+
+.modal-img-box {
+    flex: 1;
+    max-width: 300px;
+}
+
+.modal-img-box img {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.modal-info {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.modal-info h2 {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    font-family: var(--font-title);
+    font-size: 2rem;
+    color: var(--accent-gold);
+    border-bottom: 1px solid #333;
+}
+
+.stats-list {
+    margin-bottom: 20px;
+    list-style: none;
+}
+
+.stats-list li {
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+/* --- 頁面切換控制 --- */
+
+/* 隱藏元素的通用類別 */
+.hidden {
+    display: none !important;
+}
+
+/* 簡單的淡入動畫，讓切換比較不生硬 */
+.page-section {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 當導覽列連結被選中時的樣式 (Active State) */
+.nav-links a.active {
+    color: var(--accent-gold);
+}
+
+/* 讓 active 下方多一條金線 */
+.nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent-gold);
+    box-shadow: 0 0 5px var(--accent-gold);
+}
+
+/* --- 歷史卡組與側邊欄佈局 --- */
+
+.sidebar-layout {
+    display: flex;
+    gap: 30px;
+    height: calc(100vh - 140px); /* 扣除導航欄高度，讓它滿版 */
+}
+
+/* 左側邊欄 */
+.sidebar {
+    width: 250px;
+    background: rgba(255, 255, 255, 0.03);
+    border-right: 1px solid #333;
+    padding: 20px;
+    flex-shrink: 0; /* 防止縮小 */
+}
+
+.sidebar-title {
+    color: var(--accent-gold);
+    border-bottom: 2px solid var(--accent-gold-dim);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-family: var(--font-title);
+}
+
+.version-list {
+    list-style: none;
+}
+
+.version-list li {
+    padding: 15px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #222;
+    transition: all 0.3s;
+    color: #888;
+}
+
+.version-list li:hover, .version-list li.active {
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.1), transparent);
+    color: var(--accent-gold);
+    border-left: 3px solid var(--accent-gold);
+}
+
+/* 右側內容區 */
+.content-area {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto; /* 內容太長時出現卷軸 */
+}
+
+.section-title {
+    font-family: var(--font-title);
+    color: white;
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+.decks-container {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+/* 牌組列表 */
+.deck-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.deck-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #151515;
+    padding: 15px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.deck-item:hover {
+    border-color: var(--accent-gold);
+    transform: translateX(5px);
+}
+
+.deck-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+}
+/* 簡單定義幾個職業顏色 */
+.deck-icon.elf { background: #2e7d32; }
+.deck-icon.royal { background: #fbc02d; color: black; }
+
+.deck-imgs {
+    display: flex;
+    gap: 5px;
+}
+.deck-imgs img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #444;
+}
+
+.deck-name {
+    flex: 1;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.arrow-icon {
+    color: var(--accent-gold);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.deck-item:hover .arrow-icon { opacity: 1; }
+
+/* 圖表區塊 */
+.chart-box {
+    width: 400px;
+    background: #111;
+    padding: 20px;
+    border: 1px solid var(--accent-gold-dim);
+    border-radius: 12px;
+    position: sticky;
+    top: 20px;
+}
+
+/* --- 本週熱門卡組專用樣式 --- */
+
+/* 上方大圖區 */
+.weekly-hero {
+    position: relative;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 20px;
+}
+
+.weekly-hero img {
+    width: 100%;
+    height: 300px; /* 固定高度 */
+    object-fit: cover; /* 裁切以填滿 */
+    border-radius: 8px;
+    border: 1px solid var(--accent-gold-dim);
+    margin-bottom: 15px;
+}
+
+.weekly-title {
+    font-family: var(--font-title);
+    color: var(--accent-gold);
+    font-size: 2rem;
+}
+
+/* 下方左右分割區 */
+.weekly-split {
+    display: flex;
+    gap: 30px;
+}
+
+/* 左側文字 */
+.weekly-guide {
+    flex: 1; /* 佔據剩餘空間 */
+    background: rgba(255, 255, 255, 0.03);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.weekly-guide h3 {
+    color: white;
+    margin-bottom: 10px;
+    border-left: 3px solid var(--accent-gold);
+    padding-left: 10px;
+}
+
+.weekly-guide p {
+    color: #ccc;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+/* 右側圖表區我們直接沿用 .chart-box，所以這裡不用寫 */
+
+/* RWD: 手機版變成上下排列 */
+@media (max-width: 900px) {
+    .weekly-split {
+        flex-direction: column;
+    }
+    
+    .chart-box {
+        width: 100%; /* 手機版圖表滿寬 */
+    }
+}
+
+/* --- 遊戲規則頁面樣式 --- */
+
+.rules-container {
+    max-width: 800px;
+    margin: 0 auto; /* 讓整個列表置中 */
+}
+
+.rules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.rule-item {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid #333;
+    padding: 20px 30px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.rule-item:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: var(--accent-gold);
+    transform: translateX(10px); /* 滑鼠移上去稍微往右移 */
+}
+
+.rule-number {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    color: #444;
+    margin-right: 30px;
+    font-weight: bold;
+}
+
+.rule-item:hover .rule-number {
+    color: var(--accent-gold);
+}
+
+.rule-preview {
+    flex: 1;
+}
+
+.rule-preview h3 {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.rule-preview p {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.rule-item .arrow {
+    color: #444;
+    font-size: 1.2rem;
+}
+
+.rule-item:hover .arrow {
+    color: var(--accent-gold);
+}
+
+/* --- 純文字視窗樣式 (Text Modal) --- */
+/* 這會複寫原本 .modal-content 的部分設定 */
+.text-modal-content {
+    max-width: 600px; /* 文字視窗不需要那麼寬 */
+    border: 1px solid var(--accent-gold);
+}
+
+.rule-body-text {
+    color: #ddd;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    max-height: 60vh; /* 內容太長時 */
+    overflow-y: auto; /* 允許視窗內捲動 */
+    padding-right: 10px; /* 捲軸間距 */
+}
+
+/* 讓視窗內的標題更漂亮 */
+#rule-modal-title {
+    color: var(--accent-gold);
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
